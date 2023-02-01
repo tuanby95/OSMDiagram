@@ -1,0 +1,100 @@
+Id int
+  Name varchar
+  Address varchar
+  PhoneNumber varchar
+  Email varchar         
+  Indexes {
+    (Id) [pk]
+  }
+}
+
+Table User {
+  Id int
+  Name varchar
+  Avatar varchar
+  PhoneNumber varchar
+  Role varchar
+  Address varchar
+  Status varchar
+  Facebook varchar
+  Instagram varchar
+  ProviderId int
+  Indexes {
+    (Id) [pk]
+  }
+}
+
+Table Product {
+  Id int
+  ProductImg varchar
+  ProductGallery varchar
+  ProductName varchar
+  SKU char(7)
+  Barcode char(9)
+  Price int
+  Cost int
+  Description tinyint
+  Status int
+  ProviderId int [ref: - Provider.Id]
+  Indexes {
+    (Id) [pk]
+  }
+}
+
+Table Product_Channel {
+  Id int
+  ProductId int [ref: < Product.Id]
+  ChannelId int [ref: < Channel.Id]
+  AvailableStock int
+  Indexes {
+    (Id) [pk]
+  }
+}
+
+Table Shipping {
+  Id int
+  Date datetime
+  ShippingMethod char(10)
+  ShippingFee int
+  EstimateTime datetime
+  Indexes {
+    (Id) [pk]
+  }
+}
+
+Table Inventory {
+  Id int
+  Address varchar
+  Name varchar
+  CreatedAt datetime
+  LastUpdated datetime
+  Indexes {
+    (Id) [pk]
+  }
+}
+
+Table Product_Inventory {
+  Id int
+  ProductId int [ref: < Product.Id]
+  InventoryId int [ref: < Inventory.Id]
+  InHand int
+  InProcess int
+  Sold int
+  ListedStock int
+  LocationId int
+  Indexes {
+    (Id) [pk]
+  }
+}
+
+Table InventoryLog {
+  Id int
+  ProductId int [ref: > Product.Id]
+  Quantity int
+  Date datetime
+  Indexes {
+    (Id) [pk]
+  }
+}
+
+// Ref: ecommerce.merchant_periods.(merchant_id, country_code) > ecommerce.merchants.(id, country_code)
