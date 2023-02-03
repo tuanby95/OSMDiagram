@@ -15,6 +15,7 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblOrder' and xtype='U')
   [BuyerId] INTEGER,
   [BuyerName] VARCHAR(40),
   [ShippingAddress] VARCHAR(255),
+  [RecipientName] VARCHAR(50),
   [RecipientPhoneNumber] VARCHAR(255),
   [Region] VARCHAR(40),
   [City] VARCHAR(40),
