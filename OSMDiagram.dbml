@@ -1,101 +1,184 @@
-Id int
-  Name varchar
-  Address varchar
-  PhoneNumber varchar
-  Email varchar         
-  Indexes {
-    (Id) [pk]
-  }
+//// -- LEVEL 1
+//// -- Schemas, Tables and References
+
+// Creating tables
+// You can define the tables with full schema names
+Table TblOrder {
+  Id  INTEGER [pk, increment]
+  OrderedAt DATETIME
+  ChannelId INTEGER
+  UserId  INTEGER  
+  TotalPrice FLOAT
+  OrderStatus  VARCHAR(20)
+  Note  VARCHAR(255)
+  OrderNumber  VARCHAR(20)
+  TaxCode  VARCHAR(20)
+  CancelBy  VARCHAR(20)
+  CancelReason  VARCHAR
+  BuyerId INTEGER
+  BuyerName  VARCHAR(40)
+  ShippingAddress  VARCHAR(255)
+  RecipientPhoneNumber VARCHAR(255)
+  Region  VARCHAR(40)
+  City  VARCHAR(40)
+  District  VARCHAR(40)
+  Ward  VARCHAR(40)
+  ZipCode  VARCHAR(10)
+  ShippingServiceCost FLOAT
+  ShippingFee FLOAT
+  ShipmentProvider  VARCHAR(20)
+  CustomerPaymentMethod  VARCHAR(20)
 }
 
-Table User {
-  Id int
-  Name varchar
-  Avatar varchar
-  PhoneNumber varchar
-  Role varchar
-  Address varchar
-  Status varchar
-  Facebook varchar
-  Instagram varchar
-  ProviderId int
-  Indexes {
-    (Id) [pk]
-  }
-}
+Table TblFeedback {
+  Id  INTEGER [pk, increment]
+  ProductId INTEGER
+  BuyerName  VARCHAR(50) 
+  ChannelId INTEGER
+  CreatedAt DATETIME
+  FeedbackDescription VARCHAR(255)
+  Rating TINYINT
+} //ok
 
-Table Product {
-  Id int
-  ProductImg varchar
-  ProductGallery varchar
-  ProductName varchar
-  SKU char(7)
-  Barcode char(9)
-  Price int
-  Cost int
-  Description tinyint
-  Status int
-  ProviderId int [ref: - Provider.Id]
-  Indexes {
-    (Id) [pk]
-  }
-}
+TABLE TblChannel {
+  "Id" INTEGER [PK, increment]
+  "ChannelName"  VARCHAR(20)
+  "ConfigName"  VARCHAR(255)
+  "ConfigURL"  VARCHAR(255)
+  "AccesToken"  VARCHAR(255)
+  "CountryId" INTEGER
+  "PaymentId" INTEGER
+  "CreatedAt" DATETIME
+  "LastUpdate" DATETIME
+  "ChannelStatus" VARCHAR(8)
+} //ok
 
-Table Product_Channel {
-  Id int
-  ProductId int [ref: < Product.Id]
-  ChannelId int [ref: < Channel.Id]
-  AvailableStock int
-  Indexes {
-    (Id) [pk]
-  }
-}
+TABLE TblCountry {
+  "Id" INTEGER [pk, increment]
+  "CountryName"  VARCHAR(255)
+  "ShortCode"  VARCHAR(2)
+} // ok
 
-Table Shipping {
-  Id int
-  Date datetime
-  ShippingMethod char(10)
-  ShippingFee int
-  EstimateTime datetime
-  Indexes {
-    (Id) [pk]
-  }
-}
+TABLE TblPayment {
+  "Id" INTEGER [pk, increment]
+  "PaymentMethod"  VARCHAR(255)
+  "CardHolder"  VARCHAR(255)
+  "CardNumber"  VARCHAR(255)
+  "CreatedAt" DATETIME
+} // ok
 
-Table Inventory {
-  Id int
-  Address varchar
-  Name varchar
-  CreatedAt datetime
-  LastUpdated datetime
-  Indexes {
-    (Id) [pk]
-  }
-}
+Table TblProvider {
+  Id  INTEGER [pk, increment]
+  ProviderName  VARCHAR(255)
+  Address  VARCHAR(255)
+  PhoneNumber  VARCHAR(255)
+  Email  VARCHAR(255) 
+} // ok
 
-Table Product_Inventory {
-  Id int
-  ProductId int [ref: < Product.Id]
-  InventoryId int [ref: < Inventory.Id]
-  InHand int
-  InProcess int
-  Sold int
-  ListedStock int
-  LocationId int
-  Indexes {
-    (Id) [pk]
-  }
-}
+Table TblUser{
+  Id  INTEGER [pk, increment]
+  FullName   VARCHAR(40)
+  ImageURL VARCHAR(255)
+  PhoneNumber  VARCHAR(15)
+  Role  VARCHAR(7)
+  Address  VARCHAR(255)
+  UserStatus  VARCHAR(8)
+  Facebook  VARCHAR(255)
+  Instagram  VARCHAR(255)
+  UserName  VARCHAR(16) [not null]
+  Password  VARCHAR(16) [not null]
+} //ok
 
-Table InventoryLog {
-  Id int
-  ProductId int [ref: > Product.Id]
-  Quantity int
-  Date datetime
-  Indexes {
-    (Id) [pk]
-  }
-}
+Table TblProduct {
+  Id  INTEGER [pk, increment]
+  ProductMainImg  VARCHAR(255)
+  ProductGallery  VARCHAR(255)
+  ProductName  VARCHAR(255)
+  SKU  VARCHAR(15)
+  Barcode  VARCHAR(10)
+  Price INTEGER
+  Cost INTEGER
+  Height INTEGER
+  Width INTEGER
+  Length INTEGER
+  Weight INTEGER
+  ProductDescription  VARCHAR(255)
+  CreatedAt DATETIME
+  ProviderId INTEGER
+} //ok
 
-// Ref: ecommerce.merchant_periods.(merchant_id, country_code) > ecommerce.merchants.(id, country_code)
-// TienPham
+
+TABLE TblInventory {
+  "Id" INTEGER [PK, increment]
+  "Address"  VARCHAR(255)
+  "InventoryName"  VARCHAR(255)
+  "CreatedAt" DATETIME
+  "UpdatedAt" DATETIME
+} //ok
+
+TABLE TblProductInventory {
+  "Id" INTEGER [pk, increment]
+  "ProductId" INTEGER
+  "InventoryId" INTEGER
+  "InHand" INTEGER
+  "InProcess"   INTEGER
+  "Sold" INTEGER
+  "ListedStock" INTEGER
+  "LocationId" INTEGER
+} //ok
+
+TABLE TblInventoryLog {
+  "Id" INTEGER [Pk, increment]
+  "ProductId" INTEGER
+  "Quantity" INTEGER
+  "UpdatedAt" DATETIME
+}  // ok
+
+Table TblProductChannel{
+  Id  INTEGER [pk, increment]
+  ProductId INTEGER
+  ChannelId INTEGER
+  AvaiableStock INTEGER
+  ProductChannelStatus  VARCHAR(8)
+} //ok
+
+Table TblOrderDetail{
+  Id  INTEGER [pk, increment]
+  OrderId INTEGER
+  ProductId INTEGER
+  Quantity INTEGER
+} //ok
+
+
+
+Table TblReturn{
+  Id  INTEGER [pk, increment]
+  OrderId INTEGER 
+  ReturnedAt DATETIME
+  Reason  VARCHAR(255)
+  ReturnStatus  VARCHAR(9)
+} //ok
+
+Ref: TblReturn.(OrderId) - TblOrder.(Id) 
+
+Ref: TblOrderDetail.(OrderId) > TblOrder.(Id)
+Ref: TblOrderDetail.(ProductId) >  TblProduct.(Id)
+
+Ref: TblProductChannel.(ProductId) > TblProduct.(Id)
+Ref: TblProductChannel.(ChannelId) > TblChannel.(Id)
+
+Ref: TblInventoryLog.(ProductId) > TblProduct.(Id)
+
+Ref: TblProductInventory.(ProductId) > TblProduct.(Id)
+Ref: TblProductInventory.(InventoryId) > TblInventory.(Id) 
+
+Ref: TblProduct.(ProviderId) >  TblProvider.(Id) 
+
+Ref: TblChannel.(CountryId)  > TblCountry.(Id) 
+Ref: TblChannel.(PaymentId) <  TblPayment.(Id) 
+
+Ref: TblFeedback.(ProductId) > TblProduct.(Id) 
+Ref: TblFeedback.(ChannelId) >  TblChannel.(Id) 
+
+Ref: TblOrder.(ChannelId) > TblChannel.(Id)  
+Ref: TblOrder.(UserId) > TblUser.(Id) 
