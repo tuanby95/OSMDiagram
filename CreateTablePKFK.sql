@@ -1,4 +1,6 @@
-CREATE TABLE [TblOrder] (
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblOrder' and xtype='U')
+  CREATE TABLE [TblOrder] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [OrderedAt] DATETIME,
   [ChannelId] INTEGER,
@@ -26,7 +28,8 @@ CREATE TABLE [TblOrder] (
 )
 GO
 
-CREATE TABLE [TblFeedback] (
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblFeedback' and xtype='U')
+  CREATE TABLE [TblFeedback] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ProductId] INTEGER,
   [BuyerName] VARCHAR(50),
@@ -37,6 +40,7 @@ CREATE TABLE [TblFeedback] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblChannel' and xtype='U')
 CREATE TABLE [TblChannel] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ChannelName] VARCHAR(20),
@@ -51,6 +55,7 @@ CREATE TABLE [TblChannel] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblCountry' and xtype='U')
 CREATE TABLE [TblCountry] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [CountryName] VARCHAR(255),
@@ -58,6 +63,7 @@ CREATE TABLE [TblCountry] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblPayment' and xtype='U')
 CREATE TABLE [TblPayment] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [PaymentMethod] VARCHAR(255),
@@ -67,6 +73,7 @@ CREATE TABLE [TblPayment] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblProvider' and xtype='U')
 CREATE TABLE [TblProvider] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ProviderName] VARCHAR(255),
@@ -76,6 +83,7 @@ CREATE TABLE [TblProvider] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblUser' and xtype='U')
 CREATE TABLE [TblUser] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [FullName] VARCHAR(40),
@@ -91,6 +99,7 @@ CREATE TABLE [TblUser] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblProduct' and xtype='U')
 CREATE TABLE [TblProduct] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ProductMainImg] VARCHAR(255),
@@ -110,6 +119,7 @@ CREATE TABLE [TblProduct] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblInventory' and xtype='U')
 CREATE TABLE [TblInventory] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [Address] VARCHAR(255),
@@ -119,6 +129,7 @@ CREATE TABLE [TblInventory] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblProductInventory' and xtype='U')
 CREATE TABLE [TblProductInventory] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ProductId] INTEGER,
@@ -131,6 +142,7 @@ CREATE TABLE [TblProductInventory] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblInventoryLog' and xtype='U')
 CREATE TABLE [TblInventoryLog] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ProductId] INTEGER,
@@ -139,6 +151,7 @@ CREATE TABLE [TblInventoryLog] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblProductChannel' and xtype='U')
 CREATE TABLE [TblProductChannel] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [ProductId] INTEGER,
@@ -148,6 +161,7 @@ CREATE TABLE [TblProductChannel] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblOrderDetail' and xtype='U')
 CREATE TABLE [TblOrderDetail] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [OrderId] INTEGER,
@@ -156,6 +170,7 @@ CREATE TABLE [TblOrderDetail] (
 )
 GO
 
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='TblReturn' and xtype='U')
 CREATE TABLE [TblReturn] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
   [OrderId] INTEGER,
